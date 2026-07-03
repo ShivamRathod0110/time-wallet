@@ -2,20 +2,19 @@ import { useState, useEffect } from 'react';
 import { useDayStore } from './useDayStore';
 
 /**
- * Hook that ticks every second when a timer is active, triggering a re-render
- * so that live time displays update every 1s.
+ * Hook that ticks every second unconditionally, triggering a re-render
+ * for live wall-clock updates, running timer updates, and midnight rollover checks.
  */
 export function useLiveTimerTick() {
-  const activeTimer = useDayStore(state => state.currentDay?.activeTimer);
+  const checkAndArchiveNewDay = useDayStore(state => state.checkAndArchiveNewDay);
   const [, setTick] = useState(0);
 
   useEffect(() => {
-    if (!activeTimer || activeTimer.isPaused) return;
-
     const interval = setInterval(() => {
       setTick(t => t + 1);
+      checkAndArchiveNewDay();
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [activeTimer]);
+  }, [checkAndArchiveNewDay]);
 }

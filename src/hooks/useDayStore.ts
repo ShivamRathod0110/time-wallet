@@ -135,6 +135,7 @@ export const useDayStore = create<DayStore>((set, get) => ({
         categories: currentDay.categories.map(c => c.id === id ? { ...c, ...updates } : c)
       }
     });
+    get().saveToStorage();
   },
 
   startDay: () => {

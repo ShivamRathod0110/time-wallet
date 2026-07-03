@@ -83,3 +83,26 @@ export function getLiveCategorySeconds(category: Category, activeTimer: ActiveTi
 export function getLiveCategoryHours(category: Category, activeTimer: ActiveTimer | null): number {
   return getLiveCategorySeconds(category, activeTimer) / 3600;
 }
+
+/**
+ * Returns exact seconds elapsed since local midnight (00:00:00) today
+ */
+export function getWallClockElapsedSeconds(): number {
+  const now = new Date();
+  return now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+}
+
+/**
+ * Returns decimal hours elapsed since local midnight (00:00:00) today
+ */
+export function getWallClockElapsedHours(): number {
+  return getWallClockElapsedSeconds() / 3600;
+}
+
+/**
+ * Returns local wall clock formatted string HH:MM:SS
+ */
+export function getFormattedWallClockTime(): string {
+  const now = new Date();
+  return now.toLocaleTimeString('en-US', { hour12: false });
+}
